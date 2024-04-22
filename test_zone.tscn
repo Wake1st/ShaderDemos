@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://d380y2vuen702"]
+
+[ext_resource type="PackedScene" uid="uid://bxrw6qvfxumrk" path="res://kinematic_fluid/cup.tscn" id="1_jr8ej"]
+
+[sub_resource type="Environment" id="Environment_iy6cp"]
+background_mode = 1
+background_color = Color(0.0901961, 0.0117647, 0.0941176, 1)
+ambient_light_color = Color(0.811765, 0.87451, 1, 1)
+
+[node name="TestZone" type="Node3D"]
+
+[node name="Crew" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Crew"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 3, 3)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Crew"]
+environment = SubResource("Environment_iy6cp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Crew"]
+transform = Transform3D(1, 0, 0, 0, 0.924559, 0.381038, 0, -0.381038, 0.924559, 0, 0, 0)
+
+[node name="Cup" parent="." instance=ExtResource("1_jr8ej")]
+
+[node name="Cast" type="Node" parent="."]

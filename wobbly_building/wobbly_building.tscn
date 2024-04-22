@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://b76hjj2t2kuxo"]
+
+[ext_resource type="Script" path="res://wobbly_building/wobbly_building.gd" id="1_584r7"]
+[ext_resource type="Script" path="res://wobbly_building/wobble_mesh.gd" id="2_upitk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eps7y"]
+size = Vector3(1, 4, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_lf3f5"]
+
+[node name="WobblyBuilding" type="StaticBody3D"]
+script = ExtResource("1_584r7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+shape = SubResource("BoxShape3D_eps7y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_lf3f5")
+script = ExtResource("2_upitk")
