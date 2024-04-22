@@ -1,16 +1,33 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxrw6qvfxumrk"]
+[gd_scene load_steps=7 format=3 uid="uid://bxrw6qvfxumrk"]
 
-[ext_resource type="Script" path="res://kinematic_fluid/cup_mesh.gd" id="1_veg3t"]
+[ext_resource type="Script" path="res://kinematic_fluid/cup.gd" id="1_d42vv"]
 [ext_resource type="Material" uid="uid://mn8ssf4l77kv" path="res://kinematic_fluid/cup_material.tres" id="1_wf6my"]
+[ext_resource type="Shader" path="res://kinematic_fluid/kinematic_fluid.gdshader" id="2_3n3sy"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_v67jf"]
 material = ExtResource("1_wf6my")
-top_radius = 1.2
-bottom_radius = 1.0
+flip_faces = true
+top_radius = 1.1
+bottom_radius = 1.1
 cap_top = false
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h10bw"]
+render_priority = 0
+shader = ExtResource("2_3n3sy")
+shader_parameter/disp = Vector2(0, 0)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_3q05h"]
+material = SubResource("ShaderMaterial_h10bw")
+top_radius = 1.0
+bottom_radius = 0.999
+height = 0.001
+
 [node name="Cup" type="Node3D"]
+script = ExtResource("1_d42vv")
 
 [node name="CupMesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("CylinderMesh_v67jf")
-script = ExtResource("1_veg3t")
+
+[node name="FluidMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.09093, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3q05h")
