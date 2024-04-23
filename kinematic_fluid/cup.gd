@@ -9,10 +9,10 @@ func _ready():
 	previousPosition = global_position
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if global_position != previousPosition:
+		fluid_mesh.mesh.material.set_shader_parameter("delta", delta)
+		
 		var displacement:Vector3 = global_position - previousPosition
 		fluid_mesh.mesh.material.set_shader_parameter("disp", Vector2(displacement.x,displacement.z))
 		previousPosition = global_position
-		
-		print("disp: %v" % Vector2(displacement.x,displacement.z))

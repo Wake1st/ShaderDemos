@@ -15,6 +15,7 @@ cap_top = false
 render_priority = 0
 shader = ExtResource("2_3n3sy")
 shader_parameter/disp = Vector2(0, 0)
+shader_parameter/delta = 0.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_3q05h"]
 material = SubResource("ShaderMaterial_h10bw")
