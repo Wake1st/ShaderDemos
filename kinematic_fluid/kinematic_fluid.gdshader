@@ -1,8 +1,8 @@
 shader_type spatial;
 render_mode wireframe;
 
-const float angleFreq = 0.001;
-const float dampRatio = 0.002;
+const float angleFreq = 0.01;
+const float dampRatio = 0.02;
 const float velCoeff = 2.0*dampRatio*angleFreq;
 const float disCoeff = angleFreq*angleFreq;
 
