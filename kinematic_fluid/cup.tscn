@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxrw6qvfxumrk"]
+[gd_scene load_steps=9 format=3 uid="uid://bxrw6qvfxumrk"]
 
 [ext_resource type="Script" path="res://kinematic_fluid/cup.gd" id="1_d42vv"]
 [ext_resource type="Material" uid="uid://mn8ssf4l77kv" path="res://kinematic_fluid/cup_material.tres" id="1_wf6my"]
-[ext_resource type="Shader" path="res://kinematic_fluid/kinematic_fluid.gdshader" id="2_3n3sy"]
+[ext_resource type="Script" path="res://kinematic_fluid/fluid_body.gd" id="3_pnrgj"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_v67jf"]
 material = ExtResource("1_wf6my")
@@ -11,19 +11,21 @@ top_radius = 1.1
 bottom_radius = 1.1
 cap_top = false
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_h10bw"]
-render_priority = 0
-shader = ExtResource("2_3n3sy")
-shader_parameter/delta = 0.0
-shader_parameter/deltaPos = Vector2(0, 0)
-shader_parameter/deltaVel = Vector2(0, 0)
-shader_parameter/deltaAcc = Vector2(0, 0)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dlfqf"]
+transparency = 1
+albedo_color = Color(0.501961, 1, 0.184314, 0.152941)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_3q05h"]
-material = SubResource("ShaderMaterial_h10bw")
+material = SubResource("StandardMaterial3D_dlfqf")
 top_radius = 1.0
 bottom_radius = 0.999
 height = 0.001
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_cgv82"]
+friction = 0.1
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_cptpg"]
+radius = 1.1
 
 [node name="Cup" type="Node3D"]
 script = ExtResource("1_d42vv")
@@ -33,4 +35,25 @@ mesh = SubResource("CylinderMesh_v67jf")
 
 [node name="FluidMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.09093, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, 0, 0)
+visible = false
 mesh = SubResource("CylinderMesh_3q05h")
+
+[node name="FluidBody" type="RigidBody3D" parent="."]
+mass = 0.23
+physics_material_override = SubResource("PhysicsMaterial_cgv82")
+gravity_scale = 0.0
+inertia = Vector3(0, 500, 0)
+can_sleep = false
+freeze_mode = 1
+script = ExtResource("3_pnrgj")
+
+[node name="FluidCollision" type="CollisionShape3D" parent="FluidBody"]
+shape = SubResource("CylinderShape3D_cptpg")
+
+[node name="PhysicsFluidMesh" type="MeshInstance3D" parent="FluidBody"]
+transform = Transform3D(1.09093, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, 0, 0)
+mesh = SubResource("CylinderMesh_3q05h")
+skeleton = NodePath("../..")
+
+[node name="ConeTwistJoint3D" type="ConeTwistJoint3D" parent="."]
+node_a = NodePath("../FluidBody")
